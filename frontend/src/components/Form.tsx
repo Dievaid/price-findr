@@ -1,7 +1,8 @@
 //* Library imports
-import React from "react";
+import React, { useState } from "react";
 import { Container, TextField, Button, Grid } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 //* Stylesheet imports
 import "./stylesheets/Form.css";
@@ -9,6 +10,8 @@ import "./stylesheets/Form.css";
 interface FormType {
   type: string;
   closeCallback: React.Dispatch<React.SetStateAction<boolean>>;
+  submitCallback: React.Dispatch<React.SetStateAction<boolean>>;
+  setEmailCallback: React.Dispatch<React.SetStateAction<string>>
 }
 
 const submitButtonStyle = {
@@ -22,11 +25,40 @@ const Form: React.FC<FormType> = (props) => {
     props.closeCallback(false);
   };
 
+  const fetchFromApi = async () => {
+    //? Used for calling the Login/Register route
+    const endpoint = props.type === "Login" ? "login" : "create";
+
+    const url = `http://localhost:8005/user/public/${endpoint}`;
+    const data = {
+      email: email,
+      password: password
+    }
+    try {
+      const res = await axios.post(url, data);
+      props.submitCallback(true);
+      props.closeCallback(false);
+      props.setEmailCallback(data.email.split("@")[0]);
+      console.log(res.data);
+      return res.data;
+    }
+    catch (e) {
+      console.error(e);
+      return e;
+    }
+  }
+
+  const submitButtonCallback = async () => {
+    await fetchFromApi();
+    setEmail("");
+    setPassword("");
+  }
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   return (
-    <Container
-      className="form-container"
-      style={{display: "flex" }}
-    >
+    <Container className="form-container" style={{ display: "flex" }}>
       <Grid
         container
         spacing={3}
@@ -35,14 +67,26 @@ const Form: React.FC<FormType> = (props) => {
         alignItems={"center"}
       >
         <Grid item>
-          <TextField label="Email" type={"email"}></TextField>
+          <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            label="Email"
+            type={"email"}
+          ></TextField>
         </Grid>
         <Grid item>
-          <TextField label="Password" type={"password"}></TextField>
+          <TextField
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Password"
+            type={"password"}
+          ></TextField>
         </Grid>
         <Grid container item className="grid-buttons" spacing={10}>
           <Grid item>
-            <Button style={submitButtonStyle}>{props.type}</Button>
+            <Button style={submitButtonStyle} onClick={submitButtonCallback}>
+              {props.type}
+            </Button>
           </Grid>
           <Grid item>
             <CloseIcon
