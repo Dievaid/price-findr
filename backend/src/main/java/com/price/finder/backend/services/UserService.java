@@ -18,12 +18,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void createUser(User user) {
+    public boolean createUser(User user) {
         var searchedUser = userRepository.findByEmail(user.getEmail());
         if (searchedUser != null) {
-            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST);
+            return false;
         }
         userRepository.save(user.withEncodedPassword());
+        return true;
     }
 
     public User findUserByEmail(String email) {

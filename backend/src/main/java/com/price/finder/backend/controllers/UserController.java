@@ -5,17 +5,20 @@ import com.price.finder.backend.jwt.JwtTokenUtil;
 import com.price.finder.backend.models.User;
 import com.price.finder.backend.response.ErrorResponse;
 import com.price.finder.backend.response.Response;
+import com.price.finder.backend.response.SuccessResponse;
 import com.price.finder.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user")
+@CrossOrigin
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -28,8 +31,15 @@ public class UserController {
     }
 
     @PostMapping("/public/create")
-    public void createUser(@RequestBody User user) {
-        userService.createUser(user);
+    public ResponseEntity<? extends Response> createUser(@RequestBody User user) {
+        if (userService.createUser(user)) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new SuccessResponse("User was created successfully"));
+        }
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("This email is already used."));
     }
 
     @PostMapping("/public/login")
