@@ -22,8 +22,15 @@ public class Product {
     @ElementCollection
     private List<Double> priceHistory;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Double highestPriceOfAllTime;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Double lowestPriceOfAllTime;
-    private String highestPriceDate;
-    private String lowestPriceDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String highestPriceDate; // ISO String
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String lowestPriceDate; // Iso String
 }
