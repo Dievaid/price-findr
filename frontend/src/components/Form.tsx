@@ -7,12 +7,8 @@ import axios from "axios";
 //* Stylesheet imports
 import "./stylesheets/Form.css";
 
-interface FormType {
-  type: string;
-  closeCallback: React.Dispatch<React.SetStateAction<boolean>>;
-  submitCallback: React.Dispatch<React.SetStateAction<boolean>>;
-  setEmailCallback: React.Dispatch<React.SetStateAction<string>>
-}
+//* Interface imports
+import { FormType } from "../interfaces/FormType";
 
 const submitButtonStyle = {
   backgroundColor: "#05386B",
@@ -39,12 +35,20 @@ const Form: React.FC<FormType> = (props) => {
       props.submitCallback(true);
       props.closeCallback(false);
       props.setEmailCallback(data.email.split("@")[0]);
-      console.log(res.data);
-      return res.data;
+      props.setJwtTokenCallback(res.data.token);
+
+      if (endpoint === "login") {
+        localStorage.setItem("jwtToken", res.data.token);
+        localStorage.setItem("email", data.email.split("@")[0]);
+      }
     }
     catch (e) {
       console.error(e);
-      return e;
+
+      if (endpoint === "login") {
+        localStorage.setItem("jwtToken", "");
+        localStorage.setItem("email", "");
+      }
     }
   }
 
