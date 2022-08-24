@@ -85,16 +85,16 @@ h1 b {
 }
 
 @font-face {
-    font-family: nexaLight;
+    font-family: nexaLight, system-ui;
     src: url("../../../public/fonts/NexaLight.otf");
 }
 
 @font-face {
-    font-family: nexaRegular;
+    font-family: nexaRegular, system-ui;
     src: url("../../../public/fonts/NexaRegular.otf");
 }
 
 @font-face {
-    font-family: nexaBold;
+    font-family: nexaBold, system-ui;
     src: url("../../../public/fonts/NexaBold.otf");
 }
