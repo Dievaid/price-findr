@@ -1,0 +1,20 @@
+@font-face {
+    font-family: latoRegular;
+    src: url("../../../public/fonts/Lato-Regular.ttf");
+}
+
+@font-face {
+    font-family: latoBold;
+    src: url("../../../public/fonts/Lato-Bold.ttf");
+}
+
+@font-face {
+    font-family: latoThin;
+    src: url("../../../public/fonts/Lato-Thin.ttf");
+}
+
+p {
+    font-family: latoRegular;
+    font-size: 1.2rem;
+    padding-bottom: 0.5vh;
+}

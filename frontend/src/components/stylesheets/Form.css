@@ -1,7 +1,6 @@
 .form-container {
-    margin-top: 20vh;
     max-width: 500px;
-    min-height: 400px;
+    min-height: 450px;
     align-items: center;
     background: rgba(255, 255, 255, 0.884);
     backdrop-filter: blur( 12px );

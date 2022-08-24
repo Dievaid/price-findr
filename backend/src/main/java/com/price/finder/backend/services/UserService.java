@@ -3,9 +3,7 @@ package com.price.finder.backend.services;
 import com.price.finder.backend.models.User;
 import com.price.finder.backend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 

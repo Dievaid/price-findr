@@ -3,30 +3,22 @@ import React from "react";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import {
   AppBar,
-  Button,
   Grid,
   IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
 
-import Grow from "@mui/material/Grow";
 
-interface NavProps {
-  isLoggedIn: boolean;
-  email: string;
-  setLoginClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setRegisterClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  setLogoutClicked: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import "./stylesheets/Navbar.css";
+
+import { NavProps } from "../interfaces/NavProps";
+
+import { GrowFC } from "./GrowFC";
 
 const navbarColor = {
   backgroundColor: "rgba(28, 12, 91, 0.45)",
   padding: 10,
-  color: "#FFF",
-};
-
-const buttonStyle = {
   color: "#FFF",
 };
 
@@ -39,42 +31,13 @@ const Navbar: React.FC<NavProps> = (props) => {
 
   const logoutOnClick = () => {
     props.setLogoutClicked(false);
+    localStorage.setItem("jwtToken", "");
+    localStorage.setItem("email", "");
   };
 
   const registerOnClick = () => {
     props.setRegisterClicked(true);
     props.setLoginClicked(false);
-  };
-
-  interface GrowProps {
-    show: boolean;
-    type: number;
-    text: string;
-    callback(): void;
-  }
-  const GrowFC: React.FC<GrowProps> = (childProps) => {
-    const genertateElement = (id: number, text: string) => {
-      switch (id) {
-        case 1:
-          //! Logout action button
-          return (
-            <Button style={buttonStyle} onClick={childProps.callback}>
-              {text}
-            </Button>
-          );
-        case 2:
-          //! User details
-          return <p>{text}</p>;
-        default:
-          return <div></div>;
-      }
-    };
-
-    return (
-      <Grow in={childProps.show} timeout={1000}>
-        {genertateElement(childProps.type, childProps.text)}
-      </Grow>
-    );
   };
 
   return (
@@ -90,7 +53,7 @@ const Navbar: React.FC<NavProps> = (props) => {
           alignItems={"center"}
         >
           <Grid item>
-            <Typography variant="h6" component="p">
+            <Typography variant="h6" component="h6">
               price-findr.
             </Typography>
           </Grid>
@@ -106,7 +69,7 @@ const Navbar: React.FC<NavProps> = (props) => {
               <GrowFC
                 show={props.isLoggedIn}
                 type={2} //? User details type number
-                text={`User, ${props.email}`}
+                text={props.email}
                 callback={() => undefined}
               ></GrowFC>
             )}
