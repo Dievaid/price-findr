@@ -9,6 +9,8 @@ import "./stylesheets/Form.css";
 
 //* Interface imports
 import { FormType } from "../interfaces/FormType";
+import { emailValidation } from "../validation/emailValidation";
+import { passwordValidation } from "../validation/passwordValidation";
 
 const submitButtonStyle = {
   backgroundColor: "#05386B",
@@ -60,6 +62,10 @@ const Form: React.FC<FormType> = (props) => {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [validEmail, setValidEmail] = useState<boolean>(false);
+  const [helperEmail, setEmailHelper] = useState<string>("");
+  const [validPassword, setValidPassword] = useState<boolean>(false);
+  const [helperPassword, setPasswordHelper] = useState<string>("");
 
   return (
     <Container className="form-container" style={{ display: "flex" }}>
@@ -72,7 +78,14 @@ const Form: React.FC<FormType> = (props) => {
       >
         <Grid item>
           <TextField
-            onChange={(e) => setEmail(e.target.value)}
+            error={validEmail}
+            helperText={helperEmail}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              let isValidEmail: boolean = emailValidation(e.target.value);
+              setValidEmail(isValidEmail);
+              setEmailHelper(isValidEmail ? "Invalid email" : "");
+            }}
             value={email}
             label="Email"
             type={"email"}
@@ -80,15 +93,22 @@ const Form: React.FC<FormType> = (props) => {
         </Grid>
         <Grid item>
           <TextField
+            error={validPassword}
+            helperText={helperPassword}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              let isValidPassword: boolean = passwordValidation(e.target.value);
+              setPassword(e.target.value);
+              setValidPassword(isValidPassword);
+              setPasswordHelper(isValidPassword ? "Try a stronger password" : "");
+            }}
             label="Password"
             type={"password"}
           ></TextField>
         </Grid>
         <Grid container item className="grid-buttons" spacing={10}>
           <Grid item>
-            <Button style={submitButtonStyle} onClick={submitButtonCallback}>
+            <Button disabled={validEmail || validPassword} style={submitButtonStyle} onClick={submitButtonCallback}>
               {props.type}
             </Button>
           </Grid>
