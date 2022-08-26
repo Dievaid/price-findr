@@ -12,5 +12,6 @@ export interface ProductData {
   /*Not api dependent*/
   /*Parent component dependent*/
   deleteClicked: boolean;
+  updateClicked: any
   refList: React.MutableRefObject<number[]>
 }

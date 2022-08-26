@@ -86,7 +86,11 @@ const FetchedListItem: React.FC<ProductData> = (props) => {
           date={props.dateHigh}
         />
         <ListItemAvatar>
-          <RefreshIcon fontSize="large" className="rotate" />
+          <RefreshIcon
+            onClick={props.updateClicked}
+            fontSize="large"
+            className="rotate"
+          />
         </ListItemAvatar>
       </ListItem>
       <Divider />
