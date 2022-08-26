@@ -99,8 +99,13 @@ const Form: React.FC<FormType> = (props) => {
             onChange={(e) => {
               let isValidPassword: boolean = passwordValidation(e.target.value);
               setPassword(e.target.value);
-              setValidPassword(isValidPassword);
-              setPasswordHelper(isValidPassword ? "Try a stronger password" : "");
+              if (props.type === "register") {
+                setValidPassword(isValidPassword);
+                setPasswordHelper(isValidPassword ? "Try a stronger password" : "");
+              } else {
+                setValidPassword(false);
+                setPasswordHelper("");
+              }
             }}
             label="Password"
             type={"password"}

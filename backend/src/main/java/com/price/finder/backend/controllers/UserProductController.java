@@ -97,4 +97,12 @@ public class UserProductController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ErrorResponse("Not valid jwt token"));
         }
     }
+
+    @GetMapping("/get")
+    public Product getProductById(@RequestParam Long id, HttpServletRequest request) {
+        String requestTokenHeader = request.getHeader("Authorization");
+        String jwtToken = requestTokenHeader.substring(7);
+
+        return productService.getProductById(jwtToken, id);
+    }
 }

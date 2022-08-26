@@ -45,7 +45,7 @@ public class ProductService {
             return false;
         }
 
-        Product dbProduct = productRepository.findById(product.getId()).orElse(null);
+        Product dbProduct = productRepository.findByUrl(product.getUrl());
         if (dbProduct == null) {
             return false;
         }
@@ -96,5 +96,16 @@ public class ProductService {
         } else {
             throw new ResourceAccessException("Not valid jwt token");
         }
+    }
+
+    public Product getProductById(String token, Long id) {
+        String email = jwtTokenUtil.getUsernameFromToken(token);
+        User dbUser = userService.findUserByEmail(email);
+
+        if (dbUser == null) {
+            return null;
+        }
+
+        return productRepository.findById(id).orElse(null);
     }
 }

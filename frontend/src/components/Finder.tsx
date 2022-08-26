@@ -93,6 +93,38 @@ const Finder: React.FC<FinderProps> = (props) => {
     getTrackedProducts();
   };
 
+  type UrlObj = {
+    url: string
+  }
+
+  const updateButtonCallback = async (c_id: number) => {
+    let dataProd = undefined;
+    let getData: UrlObj = {url: ""};
+    await axios.get("http://localhost:8005/user/private/get", {
+      headers: {
+        Authorization: `Bearer ${props.jwtToken}`
+      },
+      params: {
+        id: c_id,
+      }
+    }).then((res) => (getData = res.data)).catch((err) => console.error(err));
+    console.log(getData);
+
+    if (getData !== null) {
+      const updateUrl: string = getData.url;
+      await emagConsumer(updateUrl).then((e) => {
+        dataProd = e;
+      });
+      console.log(dataProd);
+      await axios.put("http://localhost:8005/user/private/update_product", dataProd, {
+        headers: {
+          Authorization: `Bearer ${props.jwtToken}`
+        },
+      }).then((e) => console.log(e.data)).then((err) => console.error(err));
+      getTrackedProducts();
+    }
+  }
+
   useEffect(getTrackedProducts, [props.jwtToken]);
 
   return (
@@ -147,6 +179,7 @@ const Finder: React.FC<FinderProps> = (props) => {
               lowestPrice={item.lowestPriceOfAllTime}
               pid={item.id}
               deleteClicked={deleteClicked}
+              updateClicked={() => {updateButtonCallback(item.id)}}
               key={item.id}
               refList={toDeleteProducts}
             />
