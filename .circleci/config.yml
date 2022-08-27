@@ -1,0 +1,36 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+  gradle: circleci/gradle@3.0.0
+
+jobs:
+  build-frontend:
+    docker:
+      - image: cimg/node:18.7.0
+    steps:
+      - checkout
+      - node/install-yarn
+      - run:
+          name: "Install dependencies"
+          command: "cd ./frontend/ && yarn"
+      - run:
+          name: "Build frontend"
+          command: "cd ./frontend/ && yarn build"
+  build-backend:
+    docker:
+      - image: cimg/openjdk:18.0.2
+    steps:
+      - checkout
+      - run: java --version
+      - run:
+          name: "Gradle backend build"
+          command: "cd ./backend/ && gradle build"
+
+
+
+workflows:
+  test-build-frontend:
+    jobs:
+      - build-frontend
+      - build-backend
