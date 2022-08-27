@@ -33,6 +33,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'org.bouncycastle:bcprov-jdk15on:1.70'
 	annotationProcessor 'org.projectlombok:lombok'
+	compile 'org.springframework.boot:spring-boot-starter-jdbc:2.7.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
