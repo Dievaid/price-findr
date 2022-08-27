@@ -15,7 +15,7 @@ jobs:
           command: "cd ./frontend/ && yarn"
       - run:
           name: "Build frontend"
-          command: "yarn build"
+          command: "cd ./frontend/ && yarn build"
 
 workflows:
   test-build-frontend:
