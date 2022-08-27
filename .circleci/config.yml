@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
+  gradle: circleci/gradle@3.0.0
 
 jobs:
   build-frontend:
@@ -16,8 +17,19 @@ jobs:
       - run:
           name: "Build frontend"
           command: "cd ./frontend/ && yarn build"
+  build-backend:
+    docker:
+      - image: cimg/openjdk
+    steps:
+      - checkout
+      - run:
+          name: "Gradle backend build"
+          command: "cd ./backend/ && gradle build"
+
+
 
 workflows:
   test-build-frontend:
     jobs:
       - build-frontend
+      - build-backend
