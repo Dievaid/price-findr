@@ -30,7 +30,7 @@ jobs:
 
 
 workflows:
-  test-build-frontend:
+  test-build-app:
     jobs:
       - build-frontend
       - build-backend
