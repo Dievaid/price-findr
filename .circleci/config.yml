@@ -12,8 +12,7 @@ jobs:
       - node/install-yarn
       - run:
           name: "Install dependencies"
-          command: "cd ./frontend/ \
-                    yarn"
+          command: "cd ./frontend/ && yarn"
       - run:
           name: "Build frontend"
           command: "yarn build"
